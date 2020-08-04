@@ -1,0 +1,47 @@
+{
+  "name": "gulp-ts-pkg-app",
+  "version": "0.0.0",
+  "description": "A project template with Gulp + Typescript + Babel 7 + Nodemon + PKG",
+  "main": "src/index.ts",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "start": "gulp start",
+    "build": "gulp build"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "@babel/types": "^7.10.4",
+    "@types/node": "^14.0.26",
+    "babel-plugin-root-import": "^6.5.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "pkg": "^4.4.9",
+    "typescript": "^3.9.6"
+  },
+  "gulp": {
+    "srcPath": "src",
+    "typesPath": "types",
+    "distPath": "dist",
+    "buildPath": "build",
+    "builtMain": "build/index.js",
+    "buildPlatforms": [
+      "node12-win-x64",
+      "node12-macos-x64",
+      "node12-linux-x64"
+    ],
+    "nodemonExt": [
+      "js",
+      "ts"
+    ]
+  },
+  "author": "iGoodie",
+  "license": "ISC"
+}

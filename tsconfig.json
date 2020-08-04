@@ -1,0 +1,12 @@
+{
+  "include": ["src/**/*", "./types"],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "ES3",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  }
+}
