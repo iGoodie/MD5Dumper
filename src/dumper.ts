@@ -4,14 +4,14 @@ import * as path from "path";
 import * as fs from "fs";
 import * as stream from "stream";
 
-const readdirPromisified = util.promisify((path: string, cb: OpenDirCallback) =>
+const readdirPromisified = util.promisify((path: string, cb: ReadDirCallback) =>
   fs.readdir(path, { encoding: "utf8", withFileTypes: true }, cb)
 );
 
-export async function collectHashes(
+export async function dumpFsmap(
   rootDirectoryPath: string,
   currentDirectoryPath: string = "",
-  traversed: FileHash[] = [],
+  fsmap: Fsmap = [],
   depth: number = 0
 ) {
   const realRootPath = path.join(rootDirectoryPath, currentDirectoryPath);
@@ -22,29 +22,32 @@ export async function collectHashes(
     const realPath = path.join(rootDirectoryPath, virtualPath);
 
     if (dirent.isDirectory()) {
-      await collectHashes(rootDirectoryPath, virtualPath, traversed, depth + 1);
+      await dumpFsmap(rootDirectoryPath, virtualPath, fsmap, depth + 1);
     } else {
       const fileStream: fs.ReadStream = fs.createReadStream(realPath);
       fileStream.push(virtualPath);
 
       const traversedDirent: FileHash = {
         depth,
-        index: traversed.length + 1,
+        index: fsmap.length + 1,
         path: virtualPath,
         md5: await hasha.fromStream(fileStream, { algorithm: "md5" }),
       };
 
-      traversed.push(traversedDirent);
+      fsmap.push(traversedDirent);
     }
   }
 
-  return traversed;
+  return fsmap;
 }
 
-export function summarizeFsmap(files: FileHash[]) {
-  const md5stream = new stream.Readable();
-  files.forEach((dirent) => md5stream.push(dirent.md5));
-  md5stream.push(null);
+export function minifyFsmap(fsmap: Fsmap) {
+  return fsmap.map((dirent) => dirent.md5).join("");
+}
 
+export function summarizeFsmap(fsmap: Fsmap) {
+  const md5stream = new stream.Readable();
+  fsmap.forEach((dirent) => md5stream.push(dirent.md5));
+  md5stream.push(null);
   return hasha.fromStream(md5stream);
 }

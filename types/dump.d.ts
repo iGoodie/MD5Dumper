@@ -1,3 +1,5 @@
+declare type Fsmap = FileHash[];
+
 declare type FileHash = {
   index: number;
   path: string;

@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import { collectHashes } from "./dumper";
+import { dumpFsmap, minifyFsmap } from "./dumper";
 import { summarizeFsmap } from "./dumper";
-import { writeFsmap, readFsmap } from "./fsmap";
+import { writeFsmap, readFsmap, compare } from "./fsmap";
 
 async function printFsmap(fsmap: FileHash[]) {
   console.log("Filesystem Map:");
@@ -11,7 +11,7 @@ async function printFsmap(fsmap: FileHash[]) {
 }
 
 async function main() {
-  const fsmap = await collectHashes("./target");
+  const fsmap = await dumpFsmap("./target");
   printFsmap(fsmap);
 
   const summary = await summarizeFsmap(fsmap);
@@ -21,11 +21,18 @@ async function main() {
     await fs.mkdirSync("./meta", { recursive: true });
   await writeFsmap("./meta/target.fsmap", fsmap);
 
-  console.log("\nSaved .fsmap")
+  console.log("\nSaved .fsmap");
 
-  console.log("\nLoaded .fsmap:")
+  console.log("\nLoaded .fsmap:");
   const fsmapImported = await readFsmap("./meta/target.fsmap");
   printFsmap(fsmapImported);
+
+  console.log();
+
+  const current = await dumpFsmap("./local");
+  console.log(minifyFsmap(current));
+  printFsmap(current);
+  compare(fsmap, current);
 }
 
 main();

@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as readline from "readline";
 
-export async function writeFsmap(path: string, fsmap: FileHash[]) {
+export async function writeFsmap(path: string, fsmap: Fsmap) {
   const stream = fs.createWriteStream(path);
   stream.once("open", function (fd) {
     fsmap.forEach((file) => {
@@ -12,10 +12,10 @@ export async function writeFsmap(path: string, fsmap: FileHash[]) {
   });
 }
 
-export async function readFsmap(path: string): Promise<FileHash[]> {
+export async function readFsmap(path: string): Promise<Fsmap> {
   const stream = fs.createReadStream(path);
 
-  const fsmap: FileHash[] = [];
+  const fsmap: Fsmap = [];
 
   const rl = readline.createInterface({
     input: stream,
@@ -31,4 +31,10 @@ export async function readFsmap(path: string): Promise<FileHash[]> {
   }
 
   return fsmap;
+}
+
+export async function compare(target: Fsmap, current: Fsmap) {
+  let targetIndex = 0;
+  let currentIndex = 0;
+  
 }
