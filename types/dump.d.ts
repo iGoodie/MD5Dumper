@@ -1,6 +1,6 @@
 declare type FileHash = {
   index: number;
   path: string;
-  depth: number;
+  depth?: number;
   md5: string;
 };

@@ -4,7 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 import * as stream from "stream";
 
-const opendirPromisified = util.promisify((path: string, cb: OpenDirCallback) =>
+const readdirPromisified = util.promisify((path: string, cb: OpenDirCallback) =>
   fs.readdir(path, { encoding: "utf8", withFileTypes: true }, cb)
 );
 
@@ -15,7 +15,7 @@ export async function collectHashes(
   depth: number = 0
 ) {
   const realRootPath = path.join(rootDirectoryPath, currentDirectoryPath);
-  const directory = await opendirPromisified(realRootPath);
+  const directory = await (await readdirPromisified(realRootPath)).sort();
 
   for (let dirent of directory) {
     const virtualPath = path.join(currentDirectoryPath, dirent.name);
