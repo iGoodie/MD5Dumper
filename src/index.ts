@@ -1,9 +1,15 @@
-require("dotenv").config();
+import { collectHashes } from "./dumper";
+import { summarizeFsmap } from "./dumper";
 
-global.sampleVariable = "Foo bar baz";
+async function main() {
+  const fsmap = await collectHashes("./target");
+  console.log("Filesystem Map:");
+  fsmap.forEach((file) => {
+    console.log(file.md5.substr(0, 7), file.index, file.path);
+  });
 
-const sampleObject: SampleType = {
-  bar: "Foo bar baz",
-};
+  const summary = await summarizeFsmap(fsmap);
+  console.log("\nSummary of", fsmap.length, "files =", summary.substr(0, 7));
+}
 
-console.log("Hello world!", sampleObject);
+main();
