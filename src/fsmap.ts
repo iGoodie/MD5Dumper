@@ -26,7 +26,7 @@ export async function readFsmap(path: string): Promise<Fsmap> {
 
   for await (const line of rl) {
     fsmap.push({
-      index: fsmap.length + 1,
+      index: fsmap.length,
       md5: line.substr(0, 32),
       path: line.substring(32),
     });

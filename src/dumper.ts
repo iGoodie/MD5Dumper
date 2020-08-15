@@ -29,7 +29,7 @@ export async function dumpFsmap(
 
       const traversedDirent: FileHash = {
         depth,
-        index: fsmap.length + 1,
+        index: fsmap.length,
         path: virtualPath,
         md5: await hasha.fromStream(fileStream, { algorithm: "md5" }),
       };
