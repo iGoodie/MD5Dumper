@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { dumpFsmap, minifyFsmap } from "./dumper";
 import { summarizeFsmap } from "./dumper";
-import { writeFsmap, readFsmap, compare } from "./fsmap";
+import { writeFsmap, readFsmap, diffFsmap } from "./fsmap";
 
 async function printFsmap(fsmap: FileHash[]) {
   console.log("Filesystem Map:");
@@ -30,9 +30,16 @@ async function main() {
   console.log();
 
   const current = await dumpFsmap("./local");
-  console.log(minifyFsmap(current));
   printFsmap(current);
-  compare(fsmap, current);
+
+  console.log("\nMinified:", minifyFsmap(current), "\n");
+
+  const diff = await diffFsmap(fsmap, current);
+  console.log("Missing Indices:", diff.missingIndices);
+  console.log(
+    "Invalid Files: ",
+    diff.invalidFiles.map((file) => file.path)
+  );
 }
 
 main();

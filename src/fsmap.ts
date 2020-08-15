@@ -1,5 +1,7 @@
 import * as fs from "fs";
 import * as readline from "readline";
+// @ts-ignore
+import * as clonedeep from "lodash.clonedeep";
 
 export async function writeFsmap(path: string, fsmap: Fsmap) {
   const stream = fs.createWriteStream(path);
@@ -33,8 +35,35 @@ export async function readFsmap(path: string): Promise<Fsmap> {
   return fsmap;
 }
 
-export async function compare(target: Fsmap, current: Fsmap) {
-  let targetIndex = 0;
-  let currentIndex = 0;
-  
+export async function diffFsmap(target: FsmapLite, current: Fsmap) {
+  const targetStack = clonedeep(target).reverse();
+  const currentStack = clonedeep(current).reverse();
+
+  const missingIndices: number[] = [];
+  const invalidFiles: FileHash[] = [];
+
+  function existsAhead(file: FileHash) {
+    return targetStack.some((targetFile) => targetFile.md5 === file.md5);
+  }
+
+  while (targetStack.length !== 0 && currentStack.length !== 0) {
+    const targetFile = targetStack[targetStack.length - 1];
+    const currentFile = currentStack[currentStack.length - 1];
+
+    if (targetFile.md5 === currentFile.md5) {
+      targetStack.pop();
+      currentStack.pop();
+      continue;
+    }
+
+    if (existsAhead(currentFile)) {
+      missingIndices.push(targetFile.index);
+      targetStack.pop();
+    } else {
+      invalidFiles.push(currentFile);
+      currentStack.pop();
+    }
+  }
+
+  return { missingIndices, invalidFiles };
 }
