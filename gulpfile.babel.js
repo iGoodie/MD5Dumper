@@ -47,7 +47,17 @@ function start() {
   });
 }
 
+function demo() {
+  return nodemon({
+    script: "./tests/dummy.demo.ts",
+    ext: packageJSON.gulp.nodemonExt.join(" "),
+    tasks: ["transpile"], // Is it not working? :thinking:
+    exec: "ts-node --files"
+  });
+}
+
 exports.default = gulp.series(clear, transpile, bundle);
 exports.build = gulp.series(clear, transpile);
 exports.clear = clear;
 exports.start = start;
+exports.demo = demo;

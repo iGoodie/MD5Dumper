@@ -3,13 +3,19 @@ import * as readline from "readline";
 // @ts-ignore
 import * as clonedeep from "lodash.clonedeep";
 
-export async function writeFsmap(path: string, fsmap: Fsmap) {
+export async function writeFsmap(
+  path: string,
+  fsmap: Fsmap,
+  minified: boolean = false
+) {
   const stream = fs.createWriteStream(path);
   stream.once("open", function (fd) {
     fsmap.forEach((file) => {
       stream.write(file.md5);
-      stream.write(file.path);
-      stream.write("\n");
+      if (!minified) {
+        stream.write(file.path);
+        stream.write("\n");
+      }
     });
   });
 }

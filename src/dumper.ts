@@ -49,5 +49,5 @@ export function summarizeFsmap(fsmap: Fsmap) {
   const md5stream = new stream.Readable();
   fsmap.forEach((dirent) => md5stream.push(dirent.md5));
   md5stream.push(null);
-  return hasha.fromStream(md5stream);
+  return hasha.fromStream(md5stream, { algorithm: "md5" });
 }
