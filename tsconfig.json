@@ -1,12 +1,10 @@
 {
   "include": ["src/**/*", "./types"],
   "compilerOptions": {
-    "noImplicitAny": true,
-    "target": "ES3",
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["src/*"]
-    }
+    "module": "commonjs",
+    "target": "ES6",
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "./dist"
   }
 }

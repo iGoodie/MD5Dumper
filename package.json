@@ -1,9 +1,13 @@
 {
-  "name": "gulp-ts-pkg-app",
-  "version": "0.0.0",
-  "description": "A project template with Gulp + Typescript + Babel 7 + Nodemon + PKG",
-  "main": "src/index.ts",
-  "types": "types/index.d.ts",
+  "name": "@iGoodie/MD5Dumper",
+  "version": "0.1.1",
+  "description": "A tool to dump versions for easy delta data interchange.",
+  "main": "build/index.js",
+  "srcMain": "src/index.ts",
+  "types": "build/index.d.ts",
+  "bin": {
+    "md5dump": "./index.js"
+  },
   "scripts": {
     "start": "gulp start",
     "build": "gulp build",

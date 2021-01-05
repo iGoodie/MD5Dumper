@@ -40,7 +40,7 @@ function bundle() {
 
 function start() {
   return nodemon({
-    script: packageJSON.main,
+    script: packageJSON.srcMain,
     ext: packageJSON.gulp.nodemonExt.join(" "),
     tasks: ["transpile"], // Is it not working? :thinking:
     exec: "ts-node --files"
