@@ -5,6 +5,6 @@
     "target": "ES6",
     "esModuleInterop": true,
     "declaration": true,
-    "outDir": "./dist"
+    "outDir": "./build"
   }
 }

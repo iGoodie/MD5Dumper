@@ -1,12 +1,12 @@
 {
-  "name": "@iGoodie/MD5Dumper",
-  "version": "0.1.1",
+  "name": "md5dumper",
+  "version": "0.1.3",
   "description": "A tool to dump versions for easy delta data interchange.",
   "main": "build/index.js",
   "srcMain": "src/index.ts",
   "types": "build/index.d.ts",
   "bin": {
-    "md5dump": "./index.js"
+    "md5dump": "build/index.js"
   },
   "scripts": {
     "start": "gulp start",
