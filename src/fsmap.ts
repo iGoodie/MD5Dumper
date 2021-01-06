@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as readline from "readline";
-// @ts-ignore
-import * as clonedeep from "lodash.clonedeep";
+import clonedeep from "lodash.clonedeep";
 
 export async function writeFsmap(
   path: string,
@@ -36,6 +35,27 @@ export async function readFsmap(path: string): Promise<Fsmap> {
       md5: line.substr(0, 32),
       path: line.substring(32),
     });
+  }
+
+  return fsmap;
+}
+
+export async function readMinified(path: string): Promise<FsmapLite> {
+  const fsmap: FsmapLite = [];
+
+  let data = fs.readFileSync(path, "utf-8");
+
+  let md5 = "";
+  let index = 0;
+  for (const character of data) {
+    md5 += character;
+    if (md5.length == 32) {
+      fsmap.push({
+        index: index++,
+        md5,
+      });
+      md5 = "";
+    }
   }
 
   return fsmap;

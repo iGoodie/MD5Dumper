@@ -28,6 +28,5 @@ test
 scripts
 config
 .travis.yml
-tsconfig.json
 CHANGELOG.md
 README.md

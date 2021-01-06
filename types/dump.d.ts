@@ -1,11 +1,9 @@
 declare type FsmapLite = FileHashLite[];
 declare type Fsmap = FileHash[];
 
-declare type FileHash = {
-  index: number;
+declare type FileHash = FileHashLite & {
   path?: string;
   depth?: number;
-  md5: string;
 };
 
 declare type FileHashLite = {
